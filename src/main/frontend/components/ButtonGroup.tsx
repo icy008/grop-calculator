@@ -31,8 +31,8 @@ const ButtonGroup = ({ items, label, onValueChange }: Items) => {
     <div className="relative bg-red-">
       <div>
         <p className='text-primary-color'>{label}</p>
-        <div className="p-[5px] bg-primary-color-50pct rounded-[12px] h-[]">
-          <div className="relative flex gap-1 w-[500px] overflow-hidden bg-red- p-[10px] h-[30px] items-center justify-center">
+        <div className="p-[5px] bg-white rounded-[12px] h-[]">
+          <div className="relative flex gap-1 w-[400px] overflow-hidden bg-red- p-[10px] h-[30px] items-center justify-center">
             {/* Slider */}
             <div
               className="absolute left-0 h-full bg-primary-color transition-transform duration-300 rounded-[12px] z-10"
