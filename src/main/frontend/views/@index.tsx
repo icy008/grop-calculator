@@ -5,6 +5,7 @@ import { Button, Icon, Item } from '@vaadin/react-components';
 import { Select } from '@vaadin/react-components/Select.js';
 import ButtonGroup from 'Frontend/components/ButtonGroup';
 import Heading from 'Frontend/components/Heading';
+import {  AgeServiceEndpoint, DataServiceEndpoint, QueryEnpoint  } from 'Frontend/generated/endpoints';
 
 import { sayHello } from 'Frontend/generated/HelloWorldService';
 
@@ -12,10 +13,23 @@ import { sayHello } from 'Frontend/generated/HelloWorldService';
 
 import HealthCriteriaButton from 'Frontend/themes/grop-risk-calculator/component/HealthCriteriaButton';
 import Test from 'Frontend/themes/grop-risk-calculator/component/Test';
+import { CombinedData } from 'Frontend/utils/types';
 import React, { useState } from 'react';
 
+interface Age {
+  id: number;
+  label: string;
+  value: number;
+  timestamp: string;
+}
 
-
+interface CombinedDataInterface {
+  id: number;
+  label: string;
+  value: any; // Adjust this type if you know the exact type of `value`
+  timestamp: string; // Assuming this is returned as a string; use `Date` if needed
+  source_table: string;
+}
 export default function EmptyView() {
   const [ageValue, setAgeValue] = useState<number>(0);
   const [sexValue, setSexValue] = useState<number>(0);
@@ -29,7 +43,10 @@ export default function EmptyView() {
   const [albuminValue, setAlbuminValue] = useState<number>(0);
   const [bunValue, setBunValue] = useState<number>(0);
   const [combinedData, setCombinedData] = useState([]);
-  // Calculate ΣβX
+  const [ages, setAges] = useState<Age[]|any>([]);
+  const [datas, setData] = useState<CombinedData[]>([]);
+
+    // Calculate ΣβX
   const totalValue =
         ageValue +
         sexValue +
@@ -47,34 +64,43 @@ export default function EmptyView() {
   const oneYearMortality = (1 - 0.77921 * Math.exp(totalValue - 1.37464)) * 100;
   const threeYearMortality = (1 - 0.51646 * Math.exp(totalValue - 1.37464)) * 100;
 
+
 // const oneYearMortality = Math.max(0, (1 - 0.77921 * Math.exp(totalValue - 1.37464)) * 100);
 // const threeYearMortality = Math.max(0, (1 - 0.51646 * Math.exp(totalValue - 1.37464)) * 100);
 
-      console.log("i see u")
 
       React.useEffect(() => {
-        // Fetch data from the backend API
-        fetch('/api/combined-data')
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
-        .then(data => {
-          console.log('Combined Data:', data); // Log data to console
-          setCombinedData(data); // Set data to state if needed for rendering
-        })
-        .catch(error => {
-          console.error('Error fetching combined data:', error);
-        });
-      }, []);
+        item()
+         
+    }, []);
+    
+const item =  async () => {
+
+  const query = await QueryEnpoint.getAllData()
+  const age = await AgeServiceEndpoint.getAgeData()
+  const datas = await DataServiceEndpoint.getCombinedData()
+
+  console.log('from query' , QueryEnpoint);
+  console.log('from age' , age);
+  console.log('from datas' , datas);
+
+
+
+  // const data = await   AllDataEndpoint.getAllData()
+  query.map(items => console.log( items))
+  age.map(items => console.log( items)) 
+  datas.map(items => console.log( items)) 
+
+
+  
+}
+
 
   return (
     <div>
       <Heading/>
         <div className='w-full  bg bg-red- flex items-center justify-center'>
-          <div className='container w-[70%] h- flex bg-primary-color-50pct justify-around mt-[x] py-[30px] '>
+          <div className='container w-[70%] h- sm:flex  bg-primary-color-50pct justify-around mt-[x] py-[30px] flex flex-col '>
             <div className='container-1 w-[] bg-fuchsia- flex  flex-col gap-[20px]  '>
               {/* <div>
               <div className='grid grid-cols-3 gap-[1px] mt-[10px] items-center bg-red- '>
@@ -90,7 +116,7 @@ export default function EmptyView() {
             <ButtonGroup
               label="Age"
               items={[
-                { title: '80 - 84', value: 0 },
+                { title: '80 - 84' , value: 0 },
                 { title: '85 - 89', value: 0.29129 },
                 { title: 'Age ≥ 90', value: 0.43853 },
               ]}
