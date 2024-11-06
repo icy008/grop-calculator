@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.application.interfaces.CombinedDataProjectionInterface;
+import com.example.application.utils.CombinedDataProjection;
 import com.example.application.repository.SomeEntityRepository;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.hilla.BrowserCallable;
@@ -21,7 +21,7 @@ public class DataServiceEndpoint {
     @Autowired
     private SomeEntityRepository someEntityRepository;
 
-    public List<CombinedDataProjectionInterface> getCombinedData() {
+    public List<CombinedDataProjection> getCombinedData() {
         return someEntityRepository.getCombinedDatas();
     }
 }

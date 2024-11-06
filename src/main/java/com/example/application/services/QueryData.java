@@ -20,27 +20,27 @@ public class QueryData {
         public List<AllData> getAllData() {
         String query = """
                 SELECT id, label, value, timestamp, source_table FROM ( 
-                    SELECT id, label, value, timestamp, 'age' AS source_table FROM age  
+                    SELECT id, label, value, timestamp, 'lnOutAge' AS source_table FROM lnOutAge  
                     UNION ALL  
-                    SELECT id, label, value, timestamp, 'gender' AS source_table FROM gender  
+                    SELECT id, label, value, timestamp, 'lnOutSex' AS source_table FROM lnOutSex  
                     UNION ALL  
-                    SELECT id, label, value, timestamp, 'barthel_index' AS source_table FROM barthel_index  
+                    SELECT id, label, value, timestamp, 'lnOutBarthelIndex' AS source_table FROM lnOutBarthelIndex  
                     UNION ALL  
-                    SELECT id, label, value, timestamp, 'history_hf' AS source_table FROM history_hf  
+                    SELECT id, label, value, timestamp, 'lnOutHistoryHf' AS source_table FROM lnOutHistoryHf  
                     UNION ALL  
-                    SELECT id, label, value, timestamp, 'sbp_admission' AS source_table FROM sbp_admission  
+                    SELECT id, label, value, timestamp, 'lnOutSbp' AS source_table FROM lnOutSbp  
                     UNION ALL  
-                    SELECT id, label, value, timestamp, 'hemoglobin' AS source_table FROM hemoglobin  
+                    SELECT id, label, value, timestamp, 'lnOutHemoglobin' AS source_table FROM lnOutHemoglobin  
                     UNION ALL  
-                    SELECT id, label, value, timestamp, 'albumin' AS source_table FROM albumin  
+                    SELECT id, label, value, timestamp, 'lnOutAlbumin' AS source_table FROM lnOutAlbumin  
                     UNION ALL  
-                    SELECT id, label, value, timestamp, 'bun' AS source_table FROM bun  
+                    SELECT id, label, value, timestamp, 'lnOutBun' AS source_table FROM lnOutBun  
                     UNION ALL  
-                    SELECT id, label, value, timestamp, 'bnp' AS source_table FROM bnp  
+                    SELECT id, label, value, timestamp, 'lnOutBnp' AS source_table FROM lnOutBnp  
                     UNION ALL  
-                    SELECT id, label, value, timestamp, 'sodium' AS source_table FROM sodium  
+                    SELECT id, label, value, timestamp, 'lnOutSodium' AS source_table FROM lnOutSodium  
                     UNION ALL  
-                    SELECT id, label, value, timestamp, 'ace_arm_use' AS source_table FROM ace_arm_use 
+                    SELECT id, label, value, timestamp, 'lnOutAceArbUse' AS source_table FROM lnOutAceArbUse 
                 ) AS combined_data;
                 """;
 
