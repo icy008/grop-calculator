@@ -5,10 +5,7 @@ import { Button, Icon, Item } from '@vaadin/react-components';
 import { Select } from '@vaadin/react-components/Select.js';
 import ButtonGroup from 'Frontend/components/ButtonGroup';
 import Heading from 'Frontend/components/Heading';
-import {   DataServiceEndpoint, QueryEnpoint  } from 'Frontend/generated/endpoints';
-
-import { sayHello } from 'Frontend/generated/HelloWorldService';
-
+import {    AgeDataEndpoint, DataServiceEndpoint  } from 'Frontend/generated/endpoints';
 
 
 import HealthCriteriaButton from 'Frontend/themes/grop-risk-calculator/component/HealthCriteriaButton';
@@ -76,19 +73,21 @@ export default function EmptyView() {
     
 const item =  async () => {
 
-  const query = await QueryEnpoint.getAllData()
+  const query = await DataServiceEndpoint.getAllData()
+  const ageData = await AgeDataEndpoint.getAgeData()
 
-  const datas = await DataServiceEndpoint.getCombinedData()
+
 
   console.log('from query' , query);
-  console.log('from datas' , datas);
+  console.log('from age' , ageData);
+
+  // console.log('from datas' , datas);
 
 
 
   // const data = await   AllDataEndpoint.getAllData()
-  query.map(items => console.log( items))
+  // query.map(items => console.log( items))
 
-  datas.map(items => console.log( items)) 
 
 
   

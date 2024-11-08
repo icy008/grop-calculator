@@ -1,41 +1,51 @@
-package com.example.application.component;
+// package com.example.application.component;
 
+// import java.util.*;
 
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
-import java.time.Instant;
+// import com.example.application.entity.TableEntity;
+// import com.example.application.repository.TableRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+// import jakarta.transaction.Transactional;
 
-@Component
-public class DataSeeder implements CommandLineRunner {
+// import java.time.LocalDateTime;
+// @Component
+// public class DataSeeder {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+//     @Autowired
+//     private TableRepository tableRepository;
 
-    @Override
-    public void run(String... args) {
-        seedTableIfEmpty("lnOutAge", "age_label");
-        seedTableIfEmpty("lnOutSex", "sex_label");
-        seedTableIfEmpty("lnOutBarthelIndex", "barthel_label");
-        // Call for each table in similar fashion...
-    }
+//     @Transactional
+//     public void seedDatabase() {
+//         List<TableEntity> data = tableRepository.getCombinedDatas();
 
-    private void seedTableIfEmpty(String tableName, String label) {
-        Long count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM " + tableName, Long.class);
-        
-        if (count == 0) {
-            System.out.println("No records found in " + tableName + ", seeding data...");
+//         if (data.isEmpty()) {
+//             System.out.println("No data found. Seeding database...");
 
-            String insertQuery = "INSERT INTO " + tableName + " (id, label, value, timestamp) VALUES (?, ?, ?, ?)";
-            jdbcTemplate.update(insertQuery, 1, label, 0.0, Timestamp.from(Instant.now()));
-            
-            System.out.println("Seeded data in " + tableName);
-        } else {
-            System.out.println(tableName + " already contains data.");
-        }
-    }
-}
+//             // Define default values for missing data
+//             List<TableEntity> defaultData = Arrays.asList(
+//                 new TableEntity(1L, "Age", 30.0f, LocalDateTime.now(), "age"),
+//                 new TableEntity(2L, "Age", 30.0f, LocalDateTime.now(), "age"),
+//                 new TableEntity(3L, "Age", 30.0f, LocalDateTime.now(), "age"),
+
+//                 new TableEntity(2L, "Gender", 1.0f, LocalDateTime.now(), "gender"),
+//                 new TableEntity(3L, "Barthel Index", 85.0f, LocalDateTime.now(), "barthel_index"),
+//                 new TableEntity(4L, "History HF", 0.0f, LocalDateTime.now(), "history_hf"),
+//                 new TableEntity(5L, "SBP Admission", 120.0f, LocalDateTime.now(), "sbp_admission"),
+//                 new TableEntity(6L, "Hemoglobin", 13.5f, LocalDateTime.now(), "hemoglobin"),
+//                 new TableEntity(7L, "Albumin", 4.0f, LocalDateTime.now(), "albumin"),
+//                 new TableEntity(8L, "BUN", 18.0f, LocalDateTime.now(), "bun"),
+//                 new TableEntity(9L, "BNP", 100.0f, LocalDateTime.now(), "bnp"),
+//                 new TableEntity(10L, "Sodium", 140.0f, LocalDateTime.now(), "sodium"),
+//                 new TableEntity(11L, "ACE/ARB Use", 1.0f, LocalDateTime.now(), "ace_arm_use")
+//             );
+
+//             tableRepository.saveAll(defaultData);
+//             System.out.println("Database seeded successfully.");
+//         } else {
+//             System.out.println("Data already exists. No seeding needed.");
+//         }
+//     }
+// }
