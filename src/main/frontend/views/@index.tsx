@@ -1,32 +1,15 @@
 import { ViewConfig } from '@vaadin/hilla-file-router/types.js';
-import { Button, Icon, Item } from '@vaadin/react-components';
-
-// export const config: ViewConfig = { menu: { ordser: 1, icon: 'line-awesome/svg/file.svg' }, title: 'Empty' };
-import { Select } from '@vaadin/react-components/Select.js';
 import ButtonGroup from 'Frontend/components/ButtonGroup';
+import Footer from 'Frontend/components/Footer';
 import Heading from 'Frontend/components/Heading';
-import {    AgeDataEndpoint, DataServiceEndpoint  } from 'Frontend/generated/endpoints';
-
-
-import HealthCriteriaButton from 'Frontend/themes/grop-risk-calculator/component/HealthCriteriaButton';
-import Test from 'Frontend/themes/grop-risk-calculator/component/Test';
-import { CombinedData } from 'Frontend/utils/types';
 import React, { useState } from 'react';
+import TableInterface from 'Frontend/generated/com/example/application/entity/TableInterface';
+import { fetchDataFn } from 'Frontend/utils/constants/get-data';
+import ResultContainer from 'Frontend/components/ResultContainer';
 
-interface Age {
-  id: number;
-  label: string;
-  value: number;
-  timestamp: string;
-}
 
-interface CombinedDataInterface {
-  id: number;
-  label: string;
-  value: any; // Adjust this type if you know the exact type of `value`
-  timestamp: string; // Assuming this is returned as a string; use `Date` if needed
-  source_table: string;
-}
+
+
 export default function EmptyView() {
   const [ageValue, setAgeValue] = useState<number>(0);
   const [sexValue, setSexValue] = useState<number>(0);
@@ -39,11 +22,20 @@ export default function EmptyView() {
   const [hemoglobinValue, setHemoglobinValue] = useState<number>(0);
   const [albuminValue, setAlbuminValue] = useState<number>(0);
   const [bunValue, setBunValue] = useState<number>(0);
-  const [combinedData, setCombinedData] = useState([]);
-  const [ages, setAges] = useState<Age[]|any>([]);
-  const [datas, setData] = useState<CombinedData[]>([]);
+  const [data, setData] = useState<{ [source: string]: TableInterface[] }>({});
 
-    // Calculate ΣβX
+  React.useEffect(() => {
+    const fetchData = async () => {
+    const res = await fetchDataFn();
+    setData(res);
+
+  }
+    fetchData();
+    console.log(data);
+  }, []);
+
+
+
   const totalValue =
         ageValue +
         sexValue +
@@ -57,189 +49,123 @@ export default function EmptyView() {
         albuminValue +
         bunValue;
 
-  // Calculate 1-year and 3-year mortality rates
   const oneYearMortality = (1 - 0.77921 * Math.exp(totalValue - 1.37464)) * 100;
   const threeYearMortality = (1 - 0.51646 * Math.exp(totalValue - 1.37464)) * 100;
-
-
-// const oneYearMortality = Math.max(0, (1 - 0.77921 * Math.exp(totalValue - 1.37464)) * 100);
-// const threeYearMortality = Math.max(0, (1 - 0.51646 * Math.exp(totalValue - 1.37464)) * 100);
-
-
-      React.useEffect(() => {
-        item()
-         
-    }, []);
-    
-const item =  async () => {
-
-  const query = await DataServiceEndpoint.getAllData()
-  const ageData = await AgeDataEndpoint.getAgeData()
-
-
-
-  console.log('from query' , query);
-  console.log('from age' , ageData);
-
-  // console.log('from datas' , datas);
-
-
-
-  // const data = await   AllDataEndpoint.getAllData()
-  // query.map(items => console.log( items))
-
-
-
-  
-}
-
 
   return (
     <div>
       <Heading/>
         <div className='w-full  bg bg-red- flex items-center justify-center'>
-          <div className='container w-[70%] h- sm:flex  bg-primary-color-50pct justify-around mt-[x] py-[30px] flex flex-col '>
-            <div className='container-1 w-[] bg-fuchsia- flex  flex-col gap-[20px]  '>
-              {/* <div>
-              <div className='grid grid-cols-3 gap-[1px] mt-[10px] items-center bg-red- '>
-                <Button className='rounded-l-[6px] text-button-text-color rounded-r-[0px]' theme="small">When to use </Button>
-                <Button className='rounded-[1px] text-button-text-color' theme="small">Pearls/Pitfalls
-                <Icon style={{ height: '12px', width: '12px' }} slot={'suffix'} icon="vaadin:info-circle" />
-                </Button>
-                <Button className='rounded-r-[6px] text-button-text-color rounded-l-[0px]' theme="small">Why use
-                <Icon style={{ height: '12px', width: '12px' }} slot={'suffix'} icon="vaadin:question-circle" />
-                </Button>
+          <div className='container w-[100%] sm:w-[80%] md:w-[70%]  bg-primary-color-50pct flex justify-center'>
+            <div className=' w-full flex flex-col items-center'>
+              <div className='w-full  pl-[] pt-[15px] text-primary-color text-[18px] font-semibold flex justify-center items-center'>
+                Estimation of 1-year and 3-years mortality in heart failure patiants aged 80 years and older
               </div>
-              </div> */}
-            <ButtonGroup
-              label="Age"
-              items={[
-                { title: '80 - 84' , value: 0 },
-                { title: '85 - 89', value: 0.29129 },
-                { title: 'Age ≥ 90', value: 0.43853 },
-              ]}
-              onValueChange={setAgeValue}
-            />
-      
-            <ButtonGroup
-              label="Sex"
-              items={[
-                { title: 'Male: ♂', value: 0.51578 },
-                { title: 'Female: ♀', value: 0 },
-              ]}
-              onValueChange={setSexValue}
-            />
+              <div className='container-1 w-[100%]  sm:w-[90%] md:w-[80%]   mt-[30px] flex flex-col gap-[20px]'>
+                {data.age && (
+                  <ButtonGroup
+                    label="Age"
+                    items={[
+                      { title: data.age[0].label, value: data.age[0].value ,placeholder:'years' },
+                      { title: data.age[1].label, value: data.age[1].value ,placeholder:'years'  },
+                      { title: data.age[2].label, value: data.age[2].value ,placeholder:'years'  },
 
-            <ButtonGroup
-              label="Barthel index"
-              items={[
-                { title: '≥ 90', value: 0 },
-                { title: '61 - 90', value: 0.34902 },
-                { title: '< 60', value: 0.78954 },
-              ]}
-              onValueChange={setBarthelIndexValue}
-            />
-            <ButtonGroup
-              label="History of HF"
-              items={[
-                { title: '( - )', value: 0 },
-                { title: '( + )', value: 0.35664 },
-              ]}
-              onValueChange={setHistoryOfHfValue}
-            />
+                    ]}
+                    onValueChange={setAgeValue}
+                  />
+                )}
+                {data.gender && (
+                  <ButtonGroup
+                    label="Gender"
+                    items={[
+                      { title: data.gender[0].label, value: data.gender[0].value },
+                      { title: data.gender[1].label, value: data.gender[1].value },
+                    ]}
+                    onValueChange={setSexValue}
+                  />
+                )}
               <ButtonGroup
-                label="SBP"
+                label="Barthel index"
                 items={[
-                  { title: '≥ 100', value: 0 },
-                  { title: '≤ 100', value: 0.31585 },
+                  { title: '≥ 90', value: 0 },
+                  { title: '61 - 90', value: 0.34902 },
+                  { title: '< 60', value: 0.78954 },
                 ]}
-                onValueChange={setSbpValue}
-            />
-            <ButtonGroup
-              label="Hemoglobin"
+                onValueChange={setBarthelIndexValue}
+              />
+              <ButtonGroup
+                label="History of HF"
+                items={[
+                  { title: '( - )', value: 0 },
+                  { title: '( + )', value: 0.35664 },
+                ]}
+                onValueChange={setHistoryOfHfValue}
+              />
+                <ButtonGroup
+                  label="SBP"
+                  items={[
+                    { title: '≥ 100', value: 0 },
+                    { title: '≤ 100', value: 0.31585 },
+                  ]}
+                  onValueChange={setSbpValue}
+              />
+              <ButtonGroup
+                label="Hemoglobin"
+                items={[
+                  { title: '≥ 12', value: 0 },
+                  { title: '10 - 11.9', value: 0.23813 },
+                  { title: '< 10', value: 0.40091 },
+                ]}
+                onValueChange={setHemoglobinValue}
+              />
+              <ButtonGroup
+                label="Albumin"
+                items={[
+                  { title: '≥ 3', value: 0 },
+                  { title: '< 3', value: 0.37812 },
+                ]}
+                onValueChange={setAlbuminValue}
+              />
+              <ButtonGroup
+                label="BUN"
+                items={[
+                  { title: '< 25', value: 0 },
+                  { title: '≥ 25', value: 0.21341 },
+                ]}
+                onValueChange={setBunValue}
+              />
+              <ButtonGroup
+              label="BNP"
               items={[
-                { title: '≥ 12', value: 0 },
-                { title: '10 - 11.9', value: 0.23813 },
-                { title: '< 10', value: 0.40091 },
+                { title: '< 300', value: 0 },
+                { title: '≥ 300', value: 0.29743  },
               ]}
-              onValueChange={setHemoglobinValue}
-            />
-            </div>
-            <div className='container-2 flex flex-col gap-[20px] '>
-            <ButtonGroup
-              label="Albumin"
-              items={[
-                { title: '≥ 3', value: 0 },
-                { title: '< 3', value: 0.37812 },
-              ]}
-              onValueChange={setAlbuminValue}
-            />
-            <ButtonGroup
-              label="BUN"
-              items={[
-                { title: '< 25', value: 0 },
-                { title: '≥ 25', value: 0.21341 },
-              ]}
-              onValueChange={setBunValue}
-            />
-            <ButtonGroup
-            label="BNP"
-            items={[
-              { title: '< 300', value: 0 },
-              { title: '≥ 300', value: 0.29743  },
-            ]}
-            onValueChange={setBnpValue}
-             />
-            <ButtonGroup
-              label="Sodium"
-              items={[
-                { title: '≥ 130', value: 0 },
-                { title: '< 130', value: 0.60705 },
-              ]}
-              onValueChange={setSodiumValue}
-            />
-            <ButtonGroup
-              label="ACE/ARB use"
-              items={[
-                { title: '( + )', value: 0.20517 },
-                { title: '( - )', value: 0 },
-              ]}
-              onValueChange={setAceArbValue}
-            />
-              {/* <div>Total Value: {totalValue}</div> */}
-
-              {/* <div className='h-[1px] w-full bg-primary-color mt-[ ]'></div> */}
-            <div> 
-              <div className='h-[120px] w-full bg-primary-color-50pct p-[5px] rounded-[12px]'>
-              <div className='flex justify-center items-center h-full  ]'>
-                <div className='w-[100%] h-full bg-primary-color flex text-white rounded-[12px]  py-[10px]'>
-                  <div className='w-full h-full   border-r-[1px] flex justify-center items-center'> 
-                  <div className='text-[12px]  md:text-[21px] font-bold'>
-                  {totalValue.toFixed(2)} points
-                  </div>
-                  </div>
-                  <div className='w-full h-full flex justify-center items-center '>
-                  <div className='flex flex-col'>
-                  <div className='text-[12px] md:text-[21px] font-bold'>{oneYearMortality.toFixed(2)}%</div>
-                  <span className='text-[10px] md:text-[12px] font-bold'>1-year mortality</span>
-                  </div>
-                  </div>
-                  <div className='w-full h-full   border-l-[1px] flex justify-center items-center'>
-                  <div className='flex flex-col'>
-                <div className='text-[12px] md:text-[21px] font-bold'>{threeYearMortality.toFixed(2)}%</div>
-                <span className='text-[10px] md:text-[12px] font-bold'>3-year mortality</span>
-                </div>  
-                  </div>
-                </div>
+              onValueChange={setBnpValue}
+              />
+              <ButtonGroup
+                label="Sodium"
+                items={[
+                  { title: '≥ 130', value: 0 },
+                  { title: '< 130', value: 0.60705 },
+                ]}
+                onValueChange={setSodiumValue}
+              />
+              <ButtonGroup
+                label="ACE/ARB use"
+                items={[
+                  { title: '( + )', value: 0.20517 },
+                  { title: '( - )', value: 0 },
+                ]}
+                onValueChange={setAceArbValue}
+              />
+              <div className='mb-[50px]'> 
+                <ResultContainer total={totalValue} oneyear={oneYearMortality} threeyear={threeYearMortality} />
               </div>
               </div>
             </div>
-            </div>
-
           </div>
         </div>
-
-
+        <Footer/>
     </div>
   );
 }

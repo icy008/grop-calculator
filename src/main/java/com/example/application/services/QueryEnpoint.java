@@ -1,12 +1,8 @@
 package com.example.application.services;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.example.application.entity.Age;
-import com.example.application.repository.AgeRepository;
+import com.example.application.entity.AllData;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.hilla.BrowserCallable;
 import com.vaadin.hilla.Endpoint;
@@ -15,13 +11,18 @@ import com.vaadin.hilla.Endpoint;
 @Endpoint
 @BrowserCallable
 @AnonymousAllowed
-@Service
-public class AgeDataEndpoint {
+public class QueryEnpoint {
     
     @Autowired
-    private AgeRepository ageRepository;
+    private QueryData queryData;
 
-    public List<Age> getAgeData() {
-        return ageRepository.findAll();
+    public List<AllData> getAllData() {
+    
+        List<AllData> data = queryData.getAllData();
+        System.out.println("hey" +data);
+
+        System.out.println("hey" +queryData.getAllData());
+    
+    return  data;
     }
 }

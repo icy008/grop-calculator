@@ -2,9 +2,10 @@ import { Button } from '@vaadin/react-components'
 import React from 'react'
 
 interface Item {
-  title: string;
+  title?: string;
   active?: string;
   value?: number;
+  placeholder?:string;
 }
 
 interface Items {
@@ -23,16 +24,16 @@ const ButtonGroup = ({ items, label, onValueChange }: Items) => {
   React.useEffect(() => {
     // Send the value of the selected item to the parent component
     if (items[selected].value !== undefined) {
-      onValueChange(items[selected].value);
+      onValueChange(items[selected].value)
     }
   }, [selected, items, onValueChange]);
 
   return (
-    <div className="relative bg-red-">
-      <div>
-        <p className='text-primary-color'>{label}</p>
-        <div className="p-[5px] bg-white rounded-[12px] h-[]">
-          <div className="relative flex gap-1 w-[400px] overflow-hidden bg-red- p-[10px] h-[30px] items-center justify-center">
+    <div className="relative bg-red-" >
+      <div className='mx-[20px]'>
+        <p className='text-primary-color font-semibold'>{label}</p>
+        <div className="p-[5px] bg-white rounded-[12px] border-[2px] border-green-">
+          <div className="relative flex gap-1 w-full overflow-hidden bg-red-   p-[10px] h-[40px] items-center justify-center">
             {/* Slider */}
             <div
               className="absolute left-0 h-full bg-primary-color transition-transform duration-300 rounded-[12px] z-10"
@@ -40,19 +41,25 @@ const ButtonGroup = ({ items, label, onValueChange }: Items) => {
                 width: `${100 / items.length}%`,
                 transform: `translateX(${selected * 100}%)`,
               }}
-            />
+            >
+            </div>
             {items.map((t, i) => (
               <div
                 key={i}
                 onClick={() => handleClick(i)}
-                className={`flex-1 relative px-[20px] py-2 text-center cursor-pointer  ${
+                className={`flex-1 relative px-[10px] py- text-center cursor-pointer  ${
                   selected === i ? 'text-white z-20' : 'text-gray-700'
                 }`}
                 style={{
                   backgroundColor: selected === i ? 'transparent' : undefined,
                 }}
               >
-                {t.title}
+                <div className='flex justify-center '>
+                <span className='text-[12px] '>{t.title} </span>
+                <span className=" ml-[5px] mt-[10px] text-[10px] text-w-200 ">
+                    {t.placeholder}
+                </span>
+                </div>
               </div>
             ))}
           </div>
