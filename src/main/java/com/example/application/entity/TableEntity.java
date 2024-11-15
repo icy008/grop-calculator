@@ -5,13 +5,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 import lombok.Getter;
-import lombok.Setter;
+
 
 @Entity
 public class TableEntity {
     @Id
-    // @Getter
-    private Long id;  // Define this just to satisfy the entity structure
+
+    private Long id;  
     @Getter
     private String label;
     @Getter
@@ -25,14 +25,7 @@ public class TableEntity {
     }
 }
 
-       // Constructor
-    // public TableEntity(Long id, String label, Float value, LocalDateTime timestamp, String sourceTable) {
-    //     this.id = id;
-    //     this.label = label;
-    //     this.value = value;
-    //     this.timestamp = timestamp;
-    //     this.sourceTable = sourceTable;
-    // }
+
 
 
 

@@ -30,9 +30,9 @@ const ButtonGroup = ({ items, label, onValueChange }: Items) => {
 
   return (
     <div className="relative bg-red-" >
-      <div className='mx-[20px]'>
-        <p className='text-primary-color font-semibold'>{label}</p>
-        <div className="p-[5px] bg-white rounded-[12px] border-[2px] border-green-">
+      <div className='mx-[] '>
+        <p className='text-primary-color font-semibold text-[16px]'>{label}</p>
+        <div className="p-[5px] bg-white rounded-[12px] border-[2px] border-green- bg-red-">
           <div className="relative flex gap-1 w-full overflow-hidden bg-red-   p-[10px] h-[40px] items-center justify-center">
             {/* Slider */}
             <div
@@ -47,7 +47,7 @@ const ButtonGroup = ({ items, label, onValueChange }: Items) => {
               <div
                 key={i}
                 onClick={() => handleClick(i)}
-                className={`flex-1 relative px-[10px] py- text-center cursor-pointer  ${
+                className={`flex-1 relative  px-[10px]  text-center cursor-pointer bg-red- h-[40px] flex justify-center items-center ${
                   selected === i ? 'text-white z-20' : 'text-gray-700'
                 }`}
                 style={{
@@ -55,8 +55,8 @@ const ButtonGroup = ({ items, label, onValueChange }: Items) => {
                 }}
               >
                 <div className='flex justify-center '>
-                <span className='text-[12px] '>{t.title} </span>
-                <span className=" ml-[5px] mt-[10px] text-[10px] text-w-200 ">
+                <span className='text-[18px] font-semibold '>{t.title} </span>
+                <span className={`ml-[5px] mt-[10px] text-[14px] text-w-200  ${ selected === i ? 'text-white z-20' : 'text-gray-600'}`} >
                     {t.placeholder}
                 </span>
                 </div>

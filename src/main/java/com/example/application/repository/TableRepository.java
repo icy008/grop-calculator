@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.example.application.entity.TableEntity;
-import com.example.application.constant.TableInterface;
+import com.example.application.utils.TableInterface;
 
 // import com.example.application.utils.CombinedDataProjection;
 import java.util.List;
