@@ -30,6 +30,8 @@ html {
       --lumo-primary-color-10pct: rgba(116, 142, 99, 0.1);
       --lumo-primary-text-color: hsla(214, 40%, 16%, 0.94);
       --lumo-body-text-color: hsla(214, 40%, 16%, 0.94);
+      --background-color:#E9EFEC
+
       
 }
 
@@ -38,5 +40,11 @@ html {
       --lumo-primary-color-10pct: rgba(116, 142, 99, 0.1);
       --lumo-primary-color: rgb(116, 142, 99);
       --lumo-primary-text-color: hsla(214, 96%, 96%, 0.9);
+      --background-color:#E9EFEC
+    }
 
+    .prevent-select {
+      -webkit-user-select: none; /* Safari */
+      -ms-user-select: none; /* IE 10 and IE 11 */
+      user-select: none; /* Standard syntax */
     }

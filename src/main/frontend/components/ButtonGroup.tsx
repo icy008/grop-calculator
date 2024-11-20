@@ -1,72 +1,108 @@
-import { Button } from '@vaadin/react-components'
+import { Button, Item } from '@vaadin/react-components'
 import React from 'react'
 
 interface Item {
-  title?: string;
-  active?: string;
-  value?: number;
-  placeholder?:string;
+  title: string;           
+  units: string;   
+  value: number;  
+  id: number;
 }
 
-interface Items {
+interface ButtonGroupProps {
   items: Item[];
   label: string;
-  onValueChange: (value: number) => void;
+  onValueChange: (value: number , index:number) => void;
+  defaultSelectedId: number;
+
 }
 
-const ButtonGroup = ({ items, label, onValueChange }: Items) => {
-  const [selected, setSelected] = React.useState<number>(0);
+const ButtonGroup = ({ items, label, onValueChange  ,defaultSelectedId }: ButtonGroupProps) => {
+  const [allData, setAllData] = React.useState<any>();
 
-  const handleClick = (index: number) => {
-    setSelected(index);
-  };
+
+  // const [selected, setSelected] = React.useState<number>();
+  const [selected, setSelected] = React.useState<number>(defaultSelectedId ?? items[0].id);
+  // const [selected, setSelected] = React.useState<number>(defaultSelectedId);
+
+  // const [selected, setSelected] = React.useState<number>(items[0]?.id ?? 0);
 
   React.useEffect(() => {
-    // Send the value of the selected item to the parent component
-    if (items[selected].value !== undefined) {
-      onValueChange(items[selected].value)
-    }
-  }, [selected, items, onValueChange]);
+    // On page load, gather all titles and values and set them to `allData`
+    const collectedData = items.map(item => ({
+      title: item.title,
+      value: item.value,
+    }));
+    setAllData(collectedData);
+    const total  = items.find(i => i.id === selected)?.value
+    // console.log(total);
 
-  return (
-    <div className="relative bg-red-" >
-      <div className='mx-[] '>
-        <p className='text-primary-color font-semibold text-[16px]'>{label}</p>
-        <div className="p-[5px] bg-white rounded-[12px] border-[2px] border-green- bg-red-">
-          <div className="relative flex gap-1 w-full overflow-hidden bg-red-   p-[10px] h-[40px] items-center justify-center">
-            {/* Slider */}
-            <div
-              className="absolute left-0 h-full bg-primary-color transition-transform duration-300 rounded-[12px] z-10"
-              style={{
-                width: `${100 / items.length}%`,
-                transform: `translateX(${selected * 100}%)`,
-              }}
-            >
-            </div>
-            {items.map((t, i) => (
+    // console.log(collectedData ,'yadyas');
+  }, [items]);
+
+
+
+    const handleClick = (id: number, value: number) => {
+      setSelected(id );
+      onValueChange(value, id);
+    };
+  
+
+
+    return (
+      <div className="relative bg-red-">
+        <div className="">
+          <p className="text-primary-color font-semibold text-[12px] sm:text-[16px]">{label}</p>
+          <div className="p-[5px]  rounded-[30px]  border-white  bg-white   shadow-xl ">
+            <div className="relative flex  gap-[10px] md:gap-[30px] w-full overflow-hidden bg-red- p-[10px] h-[40px] md:h-[50px] items-center justify-center">
+              {/* Slider */}
               <div
-                key={i}
-                onClick={() => handleClick(i)}
-                className={`flex-1 relative  px-[10px]  text-center cursor-pointer bg-red- h-[40px] flex justify-center items-center ${
-                  selected === i ? 'text-white z-20' : 'text-gray-700'
-                }`}
+                className="highlight absolute left-0 h-full bg-primary-color transition-transform duration-300 rounded-[24px]  shadow-inner  z-10 "
                 style={{
-                  backgroundColor: selected === i ? 'transparent' : undefined,
+                  width: `${100 / items.length}%`,
+                  transform: `translateX(${items.findIndex(item => item.id === selected) * 100}%)`,
+          
                 }}
               >
-                <div className='flex justify-center '>
-                <span className='text-[18px] font-semibold '>{t.title} </span>
-                <span className={`ml-[5px] mt-[10px] text-[14px] text-w-200  ${ selected === i ? 'text-white z-20' : 'text-gray-600'}`} >
-                    {t.placeholder}
-                </span>
-                </div>
               </div>
-            ))}
+              {items.map((t) => (
+                <div
+                  key={t.id}
+                  // values={t.value}
+                  onClick={() => handleClick(t.id, t.value)}
+                  className={`flex-1 relative   cursor-pointer bg-red-  h-[30px] md:h-[50px] flex justify-center items-center rounded-[24px] ${
+                    selected === t.id ? 'text-white z-20' : 'text-gray-700'
+                  }`}
+                  style={{
+                    backgroundColor: selected === t.id ? 'transparent' : '#',
+                  }}
+                >
+                  <div className="flex justify-center">
+                    <span className="prevent-select text-[12px] sm:text-[18px]">{t.title}</span>
+                    <span
+                      className={`prevent-select ml-[5px] mt-[10px] text-[10px] sm:text-[14px] text-w-200 ${
+                        selected === t.id ? 'text-white z-20' : 'text-gray-600'
+                      }`}
+                    >
+                      {t.units}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
 export default ButtonGroup;
+
+
+
+
+
+// React.useEffect(() => {
+//   // console.log(`item: ${label}  current index: ${selected}  value: ${items[selected].value}`);
+  
+// }, [label, items, selected]);
+

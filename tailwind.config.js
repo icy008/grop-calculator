@@ -5,7 +5,9 @@ export default {
     extend: {
       colors:{
         "primary-color": "var(--lumo-primary-color)",
-        "primary-color-50pct": "#E9EFEC",
+        "primary-color-50pct": "var(--background-color)",
+        "primary-color-100pct": "#DCE4C9",
+        "primary-color-150pct": "#ABBA7C",
       }
     },
   },

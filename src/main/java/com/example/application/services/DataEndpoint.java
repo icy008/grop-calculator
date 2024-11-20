@@ -9,9 +9,8 @@ import com.example.application.utils.TableInterface;
 import com.example.application.repository.TableRepository;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.hilla.BrowserCallable;
-import com.vaadin.hilla.Endpoint;
 
-@Endpoint
+
 @BrowserCallable
 @AnonymousAllowed
 @Service
@@ -21,12 +20,6 @@ public class DataEndpoint {
     private TableRepository tableRepository;
 
     public List<TableInterface> getAllDatas() {
-        List<TableInterface> query = tableRepository.getCombinedDatas();
-        for (TableInterface data : query) {
-            System.out.println("id: " + data.getId() + ", label: " + data.getLabel() + ", value: " + data.getValue() +
-                               ", timestamp: " + data.getTimestamp() + ", sourceTable: " + data.getSourceTable());
-        }
-        return query;
-
+        return  tableRepository.getCombinedDatas();
     }
 }
