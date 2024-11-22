@@ -14,16 +14,19 @@ export default function EmptyView() {
   const [data, setData] = useState< groupData[]>([]);
   const [mortality, setMortality] = useState<MortalityResult>();
   const [selectedValues, setSelectedValues] = useState<{ [key: string]: number }>({});
+
+
   const [selectedOptions, setSelectedOptions] = useState(() => {
     const initialSelections: { [key: string]: number } = {};
+  
     data.forEach((category) => {
-      const defaultIndex = defaultSelectedIds[category.title] - 1; // Adjusting for zero-based index
-      initialSelections[category.title] = defaultIndex >= 0 && defaultIndex < category.data.length 
-        ? defaultIndex 
-        : 0; // Fall back to first item if index is out of bounds
+      initialSelections[category.title] = 0; // Set default selection to 0
     });
+  
     return initialSelections;
   });
+
+
     useEffect(() => {
 
       const totalSum = Object.values(selectedValues).reduce((acc, val) => acc + val, 0);
@@ -44,26 +47,6 @@ export default function EmptyView() {
 
   }
 
-  // console.log(selectedValues);
-
-  interface DefaultSelected {
-    [key: string]: number; 
-  }
-
-  const defaultSelectedIds : DefaultSelected= {
-    // 'Category 1': 2,
-    // 'Category 2': 2,
-    // 'Category 3': 2,
-  };
-
-  // const defaultSelectedIds : DefaultSelected= {
-  //   'Hemoglobin': 2,
-  //   'Sodium': 2,
-  //   'BNP': 2,
-  //   'BUN': 2,
-  //   'Albumin': 2,
-  //   'Ace-Arm-Use': 2,
-  // };
 
 
   return (
@@ -87,7 +70,13 @@ export default function EmptyView() {
                         id:d.id
 
                       }))}
-                      onValueChange={(value) => {handleValueChange(item.title, value ,index ) }}
+                      onValueChange={(value) => {
+                        handleValueChange(item.title, value, index);
+                        setSelectedOptions((prevSelections) => ({
+                          ...prevSelections,
+                          [item.title]: value, 
+                        }));
+                      }}        
                       defaultSelectedId={selectedOptions[item.title] === index}
 
                       />
