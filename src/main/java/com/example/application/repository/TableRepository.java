@@ -35,7 +35,7 @@ public interface TableRepository  extends JpaRepository<TableEntity, Long> {
                     UNION ALL  
                     SELECT id, label, value,  units , timestamp, 'Sodium' AS source_table FROM sodium  
                     UNION ALL  
-                    SELECT id, label, value,  units , timestamp, 'Ace-Arm-Use' AS source_table FROM ace_arm_use 
+                    SELECT id, label, value,  units , timestamp, 'ACE/ARM Use' AS source_table FROM ace_arm_use 
                 ) AS combined_tables;
                 """;
     

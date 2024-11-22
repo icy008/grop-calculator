@@ -14,14 +14,24 @@ export default function EmptyView() {
   const [data, setData] = useState< groupData[]>([]);
   const [mortality, setMortality] = useState<MortalityResult>();
   const [selectedValues, setSelectedValues] = useState<{ [key: string]: number }>({});
-
+  const [selectedOptions, setSelectedOptions] = useState(() => {
+    const initialSelections: { [key: string]: number } = {};
+    data.forEach((category) => {
+      const defaultIndex = defaultSelectedIds[category.title] - 1; // Adjusting for zero-based index
+      initialSelections[category.title] = defaultIndex >= 0 && defaultIndex < category.data.length 
+        ? defaultIndex 
+        : 0; // Fall back to first item if index is out of bounds
+    });
+    return initialSelections;
+  });
     useEffect(() => {
+
       const totalSum = Object.values(selectedValues).reduce((acc, val) => acc + val, 0);
 
       DataEndpoint.getAllDatas().then(res => {setData(formatData(res)) } );
       MortalityEndpoint.calculateMortality(totalSum).then( total => setMortality(total));
 
-
+      // console.log(selectedValues);
     }, [selectedValues]);
 
 
@@ -32,23 +42,28 @@ export default function EmptyView() {
       [title]: value, 
     }));
 
-    console.log(title ,value);
   }
 
-  console.log(selectedValues);
+  // console.log(selectedValues);
 
   interface DefaultSelected {
     [key: string]: number; 
   }
 
   const defaultSelectedIds : DefaultSelected= {
-    'Hemoglobin': 2,
-    'Sodium': 2,
-    'BNP': 2,
-    'BUN': 2,
-    'Albumin': 2,
-    'Ace-Arm-Use': 2,
+    // 'Category 1': 2,
+    // 'Category 2': 2,
+    // 'Category 3': 2,
   };
+
+  // const defaultSelectedIds : DefaultSelected= {
+  //   'Hemoglobin': 2,
+  //   'Sodium': 2,
+  //   'BNP': 2,
+  //   'BUN': 2,
+  //   'Albumin': 2,
+  //   'Ace-Arm-Use': 2,
+  // };
 
 
   return (
@@ -56,14 +71,10 @@ export default function EmptyView() {
       <div className='sticky  w-full z-30'>
       <Heading/>
       </div>
-        <div className='w-full  bg bg-red- flex items-center justify-center'>
+        <div className='w-full  bg bg-red- flex items-center justify-center bg-primary-color-'>
           <div className='w-[100%] sm:w-[90%] md:w-[90%] lg:w-[70%] bg-primary-color-50pct flex justify-center shadow-inner  mt-[] rounded-[]'>
             <div className=' w-full flex flex-col items-center'>
-              <div className='w-full  pl-[5px] pt-[15px] text-primary-color text-[14px] font-semibold  sm:text-[18px] md:pl-[5%]'>
-                {/* Estimation of 1-year and 3-years mortality in heart failure patiants aged 80 years and older */}
-              </div>
-              <div className='w-[90%] mx-[20px] sm:w-[90%] md:w-[80%]   sm:mt-[30px] flex flex-col gap-[20px] md:gap-[30px]'>
-
+              <div className='w-[90%] mx-[20px] sm:w-[90%] md:w-[80%]   sm:mt-[10px] flex flex-col gap-[20px] md:gap-[30px]'>
               {  data.map((item:groupData, index:number) => (
 
                     <ButtonGroup
@@ -77,7 +88,7 @@ export default function EmptyView() {
 
                       }))}
                       onValueChange={(value) => {handleValueChange(item.title, value ,index ) }}
-                      defaultSelectedId={defaultSelectedIds[item.title]}
+                      defaultSelectedId={selectedOptions[item.title] === index}
 
                       />
                   ))}
@@ -90,7 +101,7 @@ export default function EmptyView() {
             </div>
           </div>
         </div>
-        <Footer/>
+        {/* <Footer/> */}
     </div>
   );
 }

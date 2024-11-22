@@ -17,8 +17,8 @@ const Heading = () => {
   };
 
   return (
-    <div className="w-full h-[70px] bg-primary-color flex items-center justify-between">
-      <div className="ml-[10px] text-white md:text-[18px]">
+    <div className="w-full h-[60px] bg-primary-color flex items-center justify-between">
+      <div className="ml-[20px] text-white md:text-[18px]">
         [ JROADHF Over 80 Score ]
       </div>
       <div
@@ -28,7 +28,7 @@ const Heading = () => {
         <Icon
           id="tip"
           icon="vaadin:info-circle"
-          style={{ color: 'white', height: '28px', width: '28px' }}
+          style={{ color: 'white', height: '24px', width: '24px' }}
         />
       </div>
       <Example dialogOpened={dialogOpened} />
@@ -69,7 +69,7 @@ function Example({ dialogOpened }: { dialogOpened: { value: boolean } }) {
           Description
         </h2>
         <p className='text-[16px]'>
-          Estimation of 1-year and 3-years mortality in heart failure patients aged 80 years and older.
+          Estimation of 1-year and 3-years mortality in heart failure patients aged 80 years and older. test
         </p>
         <Button onClick={handleClose} style={{ alignSelf: 'flex-end' }}>
           Close

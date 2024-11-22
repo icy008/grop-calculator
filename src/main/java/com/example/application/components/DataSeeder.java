@@ -35,8 +35,8 @@ public class DataSeeder {
         seedTableWithSchema("age",
                 "CREATE TABLE age (id SERIAL PRIMARY KEY, label VARCHAR(255), value FLOAT, units VARCHAR(255), timestamp TIMESTAMPTZ)",
                 List.of(
-                        Map.of("label", "80-84", "value", 0.29129, "units", "(years)"),
-                        Map.of("label", "85 above", "value", 0.29129, "units", "(years)"),
+                        Map.of("label", "80-84", "value", 0.0, "units", "(years)"),
+                        Map.of("label", "85-89", "value", 0.29129, "units", "(years)"),
                         Map.of("label", "≥90", "value", 0.43853, "units", "(years)")
                 ));
 
@@ -44,15 +44,15 @@ public class DataSeeder {
                 "CREATE TABLE gender (id SERIAL PRIMARY KEY, label VARCHAR(255), value FLOAT, units VARCHAR(255), timestamp TIMESTAMPTZ)",
                 List.of(
                         Map.of("label", "Male", "value", 0.51578, "units", ""),
-                        Map.of("label", "Female", "value", 0.48422, "units", "")
+                        Map.of("label", "Female", "value", 0.0, "units", "")
                 ));
 
         seedTableWithSchema("barthel_index",
                 "CREATE TABLE barthel_index (id SERIAL PRIMARY KEY, label VARCHAR(255), value FLOAT, units VARCHAR(255), timestamp TIMESTAMPTZ)",
                 List.of(
-                        Map.of("label", "≥90", "value", 0.0, "units", ""),
-                        Map.of("label", "61-90", "value", 0.34902, "units", ""),
-                        Map.of("label", "≤60", "value", 0.78954, "units", "")
+                        Map.of("label", "Independent Barthel index ≥90", "value", 0.0, "units", ""),
+                        Map.of("label", "Need minimal help Barthel index 61-90", "value", 0.34902, "units", ""),
+                        Map.of("label", "Dependent Barthel index ≤60", "value", 0.78954, "units", "")
                 ));
 
         seedTableWithSchema("history_hf",
@@ -109,7 +109,7 @@ public class DataSeeder {
                 "CREATE TABLE ace_arm_use (id SERIAL PRIMARY KEY, label VARCHAR(255), value FLOAT, units VARCHAR(255), timestamp TIMESTAMPTZ)",
                 List.of(
                         Map.of("label", "No", "value", 0.20517, "units", ""),
-                        Map.of("label", "Yes", "value", 0.79483, "units", "")
+                        Map.of("label", "Yes", "value", 0.0, "units", "")
                 ));
     }
 

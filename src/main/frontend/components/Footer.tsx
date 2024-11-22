@@ -2,7 +2,7 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <div className='h-[200px] w-full'></div>
+    <div className='h-[50px] w-full'></div>
   )
 }
 

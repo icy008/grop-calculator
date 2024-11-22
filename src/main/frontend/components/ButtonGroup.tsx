@@ -12,7 +12,7 @@ interface ButtonGroupProps {
   items: Item[];
   label: string;
   onValueChange: (value: number , index:number) => void;
-  defaultSelectedId: number;
+  defaultSelectedId?: any;
 
 }
 
@@ -33,10 +33,6 @@ const ButtonGroup = ({ items, label, onValueChange  ,defaultSelectedId }: Button
       value: item.value,
     }));
     setAllData(collectedData);
-    const total  = items.find(i => i.id === selected)?.value
-    // console.log(total);
-
-    // console.log(collectedData ,'yadyas');
   }, [items]);
 
 
@@ -45,13 +41,11 @@ const ButtonGroup = ({ items, label, onValueChange  ,defaultSelectedId }: Button
       setSelected(id );
       onValueChange(value, id);
     };
-  
-
 
     return (
       <div className="relative bg-red-">
         <div className="">
-          <p className="text-primary-color font-semibold text-[12px] sm:text-[16px]">{label}</p>
+          <p className="text-primary-color font-semibold text-[12px] sm:text-[18px]">{label}</p>
           <div className="p-[5px]  rounded-[30px]  border-white  bg-white   shadow-xl ">
             <div className="relative flex  gap-[10px] md:gap-[30px] w-full overflow-hidden bg-red- p-[10px] h-[40px] md:h-[50px] items-center justify-center">
               {/* Slider */}
@@ -64,7 +58,11 @@ const ButtonGroup = ({ items, label, onValueChange  ,defaultSelectedId }: Button
                 }}
               >
               </div>
-              {items.map((t) => (
+
+              {items.map((t) => {
+                const title =t.title.split(/(?=\bBarthel\b)/)
+                console.log(title , 'test')
+                return(
                 <div
                   key={t.id}
                   // values={t.value}
@@ -73,13 +71,18 @@ const ButtonGroup = ({ items, label, onValueChange  ,defaultSelectedId }: Button
                     selected === t.id ? 'text-white z-20' : 'text-gray-700'
                   }`}
                   style={{
-                    backgroundColor: selected === t.id ? 'transparent' : '#',
+                    backgroundColor: t.id ? `transparent` : '#',
                   }}
                 >
-                  <div className="flex justify-center">
-                    <span className="prevent-select text-[12px] sm:text-[18px]">{t.title}</span>
+                  <div className="flex justify-center ">
+                    <span className={`${label} prevent-select text-[12px] sm:text-[18px] flex flex-col items-center`} >
+                    {title.map((i, index) => (
+                      <div key={index}>{i}</div>
+                    ))}
+                      </span>
+               
                     <span
-                      className={`prevent-select ml-[5px] mt-[10px] text-[10px] sm:text-[14px] text-w-200 ${
+                      className={`prevent-select ml-[5px] mt-[10px] text-[10px] sm:text-[12px] text-w-200 ${
                         selected === t.id ? 'text-white z-20' : 'text-gray-600'
                       }`}
                     >
@@ -87,7 +90,7 @@ const ButtonGroup = ({ items, label, onValueChange  ,defaultSelectedId }: Button
                     </span>
                   </div>
                 </div>
-              ))}
+              )})}
             </div>
           </div>
         </div>

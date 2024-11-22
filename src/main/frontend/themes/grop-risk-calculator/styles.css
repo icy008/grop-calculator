@@ -48,3 +48,10 @@ html {
       -ms-user-select: none; /* IE 10 and IE 11 */
       user-select: none; /* Standard syntax */
     }
+
+    .Barthel {
+      font-size: 14px!important;
+    }
+    .Barthel span{
+      font-size: 4px!important;
+    }
