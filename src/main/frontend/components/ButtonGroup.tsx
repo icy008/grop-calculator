@@ -1,5 +1,6 @@
 import { Button, Item } from '@vaadin/react-components'
 import React from 'react'
+import { useMediaQuery } from 'react-responsive'
 
 interface Item {
   title: string;           
@@ -18,16 +19,13 @@ interface ButtonGroupProps {
 
 const ButtonGroup = ({ items, label, onValueChange  ,defaultSelectedId }: ButtonGroupProps) => {
   const [allData, setAllData] = React.useState<any>();
-
-
-  // const [selected, setSelected] = React.useState<number>();
   const [selected, setSelected] = React.useState<number>(defaultSelectedId ?? items[0].id);
-  // const [selected, setSelected] = React.useState<number>(defaultSelectedId);
 
-  // const [selected, setSelected] = React.useState<number>(items[0]?.id ?? 0);
+  const isSmallScreen = useMediaQuery({
+    query: '(max-width: 800px)',
+  });
 
-  React.useEffect(() => {
-    // On page load, gather all titles and values and set them to `allData`
+  React.useEffect(( ) => {
     const collectedData = items.map(item => ({
       title: item.title,
       value: item.value,
@@ -36,21 +34,21 @@ const ButtonGroup = ({ items, label, onValueChange  ,defaultSelectedId }: Button
   }, [items]);
 
 
-
     const handleClick = (id: number, value: number) => {
       setSelected(id );
       onValueChange(value, id);
     };
 
+
     return (
       <div className="relative bg-red-">
         <div className="">
-          <p className="text-primary-color font-semibold text-[12px] sm:text-[18px]">{label}</p>
-          <div className="p-[5px]  rounded-[30px]  border-white  bg-white   shadow-xl ">
+          <p className="text-primary-color font-semibold text-[16px] sm:text-[18px]">{label}</p>
+          <div className="p-[5px]  rounded-[12px]  border-white  bg-white   shadow-xl ">
             <div className="relative flex  gap-[10px] md:gap-[30px] w-full overflow-hidden bg-red- p-[10px] h-[40px] md:h-[50px] items-center justify-center">
               {/* Slider */}
               <div
-                className="highlight absolute left-0 h-full bg-primary-color transition-transform duration-300 rounded-[24px]  shadow-inner  z-10 "
+                className="highlight absolute left-0 h-full bg-gradient-to-r from-primary-color-150pct to-primary-color transition-transform duration-300 rounded-[8px]  shadow-inner  z-10 "
                 style={{
                   width: `${100 / items.length}%`,
                   transform: `translateX(${items.findIndex(item => item.id === selected) * 100}%)`,
@@ -60,14 +58,14 @@ const ButtonGroup = ({ items, label, onValueChange  ,defaultSelectedId }: Button
               </div>
 
               {items.map((t) => {
-                const title =t.title.split(/(?=\bBarthel\b)/)
-                console.log(title , 'test')
+                const title = t.title.split(/(?=\bBarthel\b)/)
+                const shortTitle = t.title.split(' ').slice(-2).join(' ');
                 return(
                 <div
                   key={t.id}
                   // values={t.value}
                   onClick={() => handleClick(t.id, t.value)}
-                  className={`flex-1 relative   cursor-pointer bg-red-  h-[30px] md:h-[50px] flex justify-center items-center rounded-[24px] ${
+                  className={`flex-1 relative   cursor-pointer bg-red-  h-[30px] md:h-[50px] flex justify-center items-center rounded-[8px] ${
                     selected === t.id ? 'text-white z-20' : 'text-gray-700'
                   }`}
                   style={{
@@ -75,12 +73,12 @@ const ButtonGroup = ({ items, label, onValueChange  ,defaultSelectedId }: Button
                   }}
                 >
                   <div className="flex justify-center ">
-                    <span className={`${label} prevent-select text-[12px] sm:text-[18px] flex flex-col items-center`} >
+                    <span className={` prevent-select text-[14px] sm:text-[18px] flex flex-col items-center`} >
                     {title.map((i, index) => (
-                      <div key={index}>{i}</div>
+                      <div key={index}>{isSmallScreen ? i.split(' ').slice(-1).join(' '):i}</div>
                     ))}
                       </span>
-               
+
                     <span
                       className={`prevent-select ml-[5px] mt-[10px] text-[10px] sm:text-[12px] text-w-200 ${
                         selected === t.id ? 'text-white z-20' : 'text-gray-600'

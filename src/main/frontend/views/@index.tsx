@@ -7,7 +7,7 @@ import ResultContainer from 'Frontend/components/ResultContainer';
 import { DataEndpoint, MortalityEndpoint } from 'Frontend/generated/endpoints';
 import { formatData, groupData } from 'Frontend/utils/constants/formatData';
 import MortalityResult from 'Frontend/generated/com/example/application/services/MortalityEndpoint/MortalityResult';
-
+import { Icon } from '@vaadin/react-components';
 
 
 export default function EmptyView() {
@@ -52,13 +52,24 @@ export default function EmptyView() {
   return (
     <div>
       <div className='sticky  w-full z-30'>
-      <Heading/>
+      {/* <Heading/> */}
+      <div className='h-[]'>
+      {/* <img src={form.value?.avatarBase64} alt="contact's avatar" /> */}
+      {/* <Icon src={codeBranch} style={{ padding: '0.5em' }} /> */}
       </div>
-        <div className='w-full  bg bg-red- flex items-center justify-center bg-primary-color-'>
-          <div className='w-[100%] sm:w-[90%] md:w-[90%] lg:w-[70%] bg-primary-color-50pct flex justify-center shadow-inner  mt-[] rounded-[]'>
+      {/* <div className='w-full h-[600px] to:bg-primary-color'> */}
+      <div className='w-full h-[600px] bg-gradient-to-r from-primary-color-150pct to-primary-color'>
+        <div className='w-full flex flex-col justify-center items-center bg-red-'>
+          <div className=' text-white  sm:text-[40px] text-[20px] mt-[20px] font-bold'>JROADHF Over 80 Score </div>
+          <div className=' text-white sm:text-[20px] text-[16px] mx-[10px]  mt-[10px] font-'> Estimation of 1-year and 3-years mortality in heart failure patients aged 80 years and older.</div>
+        </div>
+      </div>
+      </div>
+        <div className='w-full  bg bg-red- flex items-center justify-center absolute top-[15%]  sm:top-[20%] z-40'>
+          <div className='w-[100%] sm:w-[90%] md:w-[90%] lg:w-[70%] bg-primary-color-50pct flex justify-center shadow-inner   mt-[] rounded-[20px]'>
             <div className=' w-full flex flex-col items-center'>
-              <div className='w-[90%] mx-[20px] sm:w-[90%] md:w-[80%]   sm:mt-[10px] flex flex-col gap-[20px] md:gap-[30px]'>
-              {  data.map((item:groupData, index:number) => (
+              <div className='w-[90%] mx-[20px] sm:w-[90%] md:w-[80%]   sm:mt-[40px] mt-[40px] flex flex-col gap-[20px] md:gap-[30px] '>
+              {data.map((item:groupData, index:number) => (
 
                     <ButtonGroup
                       key={index}
